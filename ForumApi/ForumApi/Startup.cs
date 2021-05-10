@@ -32,6 +32,14 @@ namespace ForumApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ForumApi", Version = "v1" });
             });
+            services.AddCors(options => {
+                options.AddPolicy(name: "MyPolicy",
+                    builder=> {
+                        builder.AllowAnyOrigin()
+                         .AllowAnyHeader()
+                         .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +57,10 @@ namespace ForumApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(builder=> {
+                builder.AllowAnyOrigin();
+            });
 
             app.UseEndpoints(endpoints =>
             {
