@@ -15,7 +15,6 @@ export default class LikeComments extends Component {
         this.state={
             likes: this.props.comment.likes,
             action: null,
-            Like:{},
             like:0,
             isReport:false,
         }
@@ -39,11 +38,9 @@ export default class LikeComments extends Component {
 
     async getLike(){
         const response = await axios(`https://localhost:5001/api/Comment/getLike/${this.props.comment.postId}/${this.props.comment.id}/${User.id}`)
-        const Like=response.data
-        if(!Like){
         
-        }else{
-            this.setState({Like:Like,action:'liked',isReport:true})
+        if(response.data){
+            this.setState({action:'liked',isReport:true})
         }
         }
 

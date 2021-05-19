@@ -29,7 +29,6 @@ export default class PostDetails extends Component {
             action: null,
             like: 0,
             isReport: false,
-            Like: {},
             post: {},
             comments: []
         }
@@ -50,10 +49,9 @@ export default class PostDetails extends Component {
 
     async getLike(postId) {
         const response = await axios(`https://localhost:5001/api/Comment/getLike/${postId}/${0}/${User.id}`)
-        const Like = response.data
-        if (!Like) {
-        }else{
-            this.setState({ Like: Like, action: 'liked', isReport: true })
+        
+        if (response) {
+            this.setState({action: 'liked', isReport: true })
         }
     }
 
@@ -159,7 +157,7 @@ export default class PostDetails extends Component {
                             style={{ backgroundColor: '#ffffff' }} />
                         <span style={{ fontSize: '14' }}>{post.authorName}</span>
                         <span style={{ marginLeft: '10px' }}>时间：{post.postDate}</span>
-                        <span style={{ marginLeft: 20 }} onClick={this.showFrmReport}>举报</span>
+                        <span style={{ marginLeft: 20,color:'blue' }} onClick={this.showFrmReport}>举报</span>
                     </span>
                 </div>
                 <Card>

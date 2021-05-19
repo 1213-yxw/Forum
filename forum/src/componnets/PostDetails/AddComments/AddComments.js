@@ -68,7 +68,7 @@ export default class AddComments extends Component {
           reviewerName:User.userName,
           reviewerAvatar:User.avatar,
           postId:this.state.postId,
-          commentDate:moment().format('YY-MM-DD HH:MM'),
+          commentDate:moment().format('YYYY-MM-DD HH:MM'),
           content: this.state.value,
           likes: 0,
           dislikes: 0
