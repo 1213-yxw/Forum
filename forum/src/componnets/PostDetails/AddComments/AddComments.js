@@ -85,7 +85,7 @@ export default class AddComments extends Component {
               author={<a>{comment.reviewerName}</a>}
               avatar={
                   <Avatar
-                      src={comment.reviewerAvatar}
+                      src={'../images/'+comment.reviewerAvatar}
                       alt={comment.reviewerName}
                   />
               }
@@ -133,7 +133,7 @@ export default class AddComments extends Component {
                     className='comment'
                     avatar={
                         <Avatar
-                            src={User.avatar}
+                            src={'../images/'+User.avatar}
                             alt={User.userName}
                         />
                     }

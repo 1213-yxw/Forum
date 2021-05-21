@@ -42,7 +42,7 @@ export default class PostAll extends Component {
           >
              <Avatar src={item.avatar} />
             <span>{item.postDate}</span>
-            <span><Link to={{pathname:'/postDetails',state:{postId:item.id}}}>{item.title}</Link></span>
+            <span><Link to={`/postDetails/${item.id}`}>{item.title}</Link></span>
             {item.content}
           </List.Item>
         )}

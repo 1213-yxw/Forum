@@ -28,7 +28,7 @@ export default class Comments extends Component {
                 author={<a>{comment.reviewerName}</a>}
                 avatar={
                     <Avatar
-                        src={comment.reviewerAvatar}
+                        src={'../images/'+comment.reviewerAvatar}
                         alt={comment.reviewerName}
                     />
                 }

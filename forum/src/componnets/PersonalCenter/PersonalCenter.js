@@ -44,7 +44,7 @@ class PersonalCenter extends Component {
                   exact
                 />
                 <Route path="/personalCenter/richText" component={RichText} />
-                <Route path="/postDetails" component={PostDetails} />
+                <Route path="/postDetails/:postId" component={PostDetails} />
               </Switch>
             </div>
           </Content>

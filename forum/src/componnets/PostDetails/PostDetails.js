@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Card,Avatar,message, Divider, Tooltip} from 'antd';
-import { UserOutlined,AntDesignOutlined} from '@ant-design/icons';
-import moment from 'moment';
+import { Card,Avatar,message} from 'antd';
+import { UserOutlined} from '@ant-design/icons';
 import axios from 'axios'
 
 import Comments from './Comments/Comments.js'
@@ -15,12 +13,10 @@ import {User} from './User.js'
 
 
 export default class PostDetails extends Component {
-    //static propTypes = {
-    // prop: PropTypes
-    //}
     constructor(props) {
         super(props)
         this.state = {
+            postId:this.props.match.params.postId,
             showFrmReport: false,
             reviewedName: '',
             reviewedId: 0,
@@ -59,14 +55,14 @@ export default class PostDetails extends Component {
     }
 
     async getPost() {
-        const response = await axios(`https://localhost:5001/api/Comment/getPost/${1}`)
+        const response = await axios(`https://localhost:5001/api/Comment/getPost/${this.state.postId}`)
         const post = response.data
         this.getLike(post.id)
         this.setState({ post: post, likes: post.likes, reviewedName: post.authorName, reviewedId: post.authorId })
     }
 
     async getComments() {
-        const response = await axios(`https://localhost:5001/api/Comment/getComments/${1}`)
+        const response = await axios(`https://localhost:5001/api/Comment/getComments/${this.state.postId}`)
         const comments = response.data
         this.setState({ comments: comments })
     }
@@ -146,13 +142,14 @@ export default class PostDetails extends Component {
         const icon = [this.state.action === 'liked' ? <img src={Liked} title='取消点赞' style={{ width: 64, height: 64 }} /> : <img src={Like} title="点赞" style={{ width: 64, height: 64 }} />]
         const post = this.state.post
         const comments = this.state.comments
+        
         return (
             <div>
                 <div className="contentTitle"><h1>{post.title}</h1></div>
                 <div className="title">
                     <span className="avatar-item">
                         <Avatar size={64} icon={<UserOutlined />}
-                            src={post.authorAvatar}
+                            src={'../images/'+post.authorAvatar}
                             style={{ backgroundColor: '#ffffff' }} />
                         <span style={{ fontSize: '14',marginLeft:10 }}>{post.authorName}</span>
                         <span style={{ marginLeft: '10px' }}>时间：{post.postDate}</span>

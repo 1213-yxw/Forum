@@ -12,6 +12,7 @@
     "braft-editor": "^2.3.9",
     "draftjs-to-html": "^0.9.1",
     "react": "^17.0.2",
+    "react-avatar-editor": "^11.1.0",
     "react-axios": "^2.0.5",
     "react-dom": "^17.0.2",
     "react-draft-wysiwyg": "^1.14.6",
