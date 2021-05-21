@@ -1,0 +1,18 @@
+.header-container {
+  background: black;
+  height: 80px;
+}
+.title-box {
+  font-size: 130%;
+  display: flex;
+  margin-left: 5cm;
+}
+.title-blog {
+  font-size: 1.7em;
+  margin-block-start: 20px;
+  margin-block-end: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  font-family: cursive;
+}
