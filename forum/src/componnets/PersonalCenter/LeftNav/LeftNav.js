@@ -9,6 +9,7 @@ import FrmUpdateAvatar from "../Avatar/FrmUpdateAvatar.js";
 /*------------------------------------------*/
 
 class LeftNav extends Component {
+  
   menuList;
 
   getMenuNodes = (menuList) => {
@@ -49,7 +50,7 @@ class LeftNav extends Component {
 
   render() {
     return (
-      <Get url="https://localhost:5001/api/PersonalCenter">
+      <Get url="https://localhost:5001/api/PersonalCenter/getMenus">
         {(error, response, isLoading, onReload) => {
           if (error) {
             return (

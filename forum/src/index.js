@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 //import 'bootstrap/dist/css/bootstrap.min.css'
 import {BrowserRouter} from 'react-router-dom'
 //import store from './components/Redux/Store.js'
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
     <BrowserRouter>
