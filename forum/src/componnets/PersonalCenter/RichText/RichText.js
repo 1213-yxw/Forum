@@ -11,7 +11,6 @@ import { User } from "../../PostDetails/User.js";
 import PostAll from "../PostAll/PostAll";
 import { Link } from "react-router-dom";
 
-//文本内容、标题，时间获取点击提交时间时候获取当时的时间
 export default class RichText extends React.Component {
   constructor(props) {
     super(props);
@@ -75,6 +74,8 @@ export default class RichText extends React.Component {
       });
       if (response.data) {
         message.success("提交成功");
+      } else {
+        message.warning("标题和内容不得为空！");
       }
     }
   }
@@ -87,13 +88,13 @@ export default class RichText extends React.Component {
           <Button type="primary" onClick={this.handleClearContent}>
             清空内容
           </Button>
-            <Button
-              type="primary"
-              onClick={this.addPost.bind(this)}
-              style={{ marginLeft: 10 }}
-            >
-              提交
-            </Button>
+          <Button
+            type="primary"
+            onClick={this.addPost.bind(this)}
+            style={{ marginLeft: 10 }}
+          >
+            提交
+          </Button>
         </Card>
         <Card>
           <Input placeholder="请输入文章标题" onChange={this.onChange} />
@@ -139,3 +140,10 @@ export default class RichText extends React.Component {
     );
   }
 }
+/* <Button
+type="primary"
+onClick={this.handleGetText}
+style={{ marginLeft: 10 }}
+>
+获取html文本
+</Button>*/

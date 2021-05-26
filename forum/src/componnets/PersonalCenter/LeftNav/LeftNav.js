@@ -29,7 +29,7 @@ class LeftNav extends Component {
     console.log("render->" + path);
     return (
       <div>
-        <NavLink to={FrmUpdateAvatar}>
+        <NavLink to="">
           <Avatar
             className="avatar-headimg"
             src={<Image src={headImg} />}

@@ -1,19 +1,40 @@
 import React, { Component } from "react";
-import { List, Avatar, Popconfirm, Empty, Button } from "antd";
+import PropTypes from "prop-types";
+import {
+  List,
+  Avatar,
+  Popconfirm,
+  Empty,
+  message,
+  Typography,
+  Switch,
+} from "antd";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { User } from "../../PostDetails/User.js";
 import ShowPost from "./ShowPost.js";
+import "./PostAll.css";
 
+const { ellipsis, Paragraph } = Typography;
+
+function cancel(e) {
+  console.log(e);
+  message.error("Click on No");
+}
 
 export default class PostAll extends Component {
+  static propTypes = {
+    postId: PropTypes.number,
+  };
   constructor(props) {
     super(props);
     this.state = {
       posts: [],
+      postId: this.props.postId,
     };
   }
+
   async getPosts() {
     var response = await axios(
       `https://localhost:5001/api/PersonalCenter/getPosts/${User.id}`
@@ -27,11 +48,14 @@ export default class PostAll extends Component {
     }
   }
 
-   async deletePost(postId) {
+  async deletePost(postId) {
     console.log(postId);
     const response = await axios(
       `https://localhost:5001/api/PersonalCenter/deletePost/${postId}`
     );
+    if (response.data) {
+      console.log("删除成功！");
+    }
   }
 
   async componentDidMount() {
@@ -45,6 +69,7 @@ export default class PostAll extends Component {
   };
 
   render() {
+    //const [ellipsis, setEllipsis] = this.setState(true);
     return (
       <List
         itemLayout="vertical"
@@ -62,22 +87,45 @@ export default class PostAll extends Component {
             key={item.title}
             actions={[
               <Popconfirm
-                title="Are you sure？"
-                icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+                title="Are you sure?"
+                onConfirm={() =>
+                  this.deletePost(item.id) && message.success("Click on Yes")
+                }
+                onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
               >
-                <Link href="#" onClick={()=>this.deletePost(item.id)}>Delete</Link>
+                <Link href="#">Delete</Link>
               </Popconfirm>,
             ]}
           >
-            <Avatar src={item.avatar} />
-            <span>{item.postDate}</span>
+            <Avatar src={item.avatar} size={50} />
             <span>
-              <Link to={`/postDetails/${item.id}`}>{item.title}</Link>
+              <Link to={`/postDetails/${item.id}`} className="post-title">
+                {item.title}
+              </Link>
             </span>
-            {item.content}
+
+            <Paragraph
+              className="post-content"
+              ellipsis={
+                ellipsis ? { rows: 2, expandable: true, symbol: "more" } : false
+              }
+            >
+              {item.content}
+            </Paragraph>
+            <span>发布于：{item.postDate}</span>
           </List.Item>
         )}
       />
     );
   }
 }
+/**
+ *       <Switch
+        checked={ellipsis}
+        onChange={() => {
+          setEllipsis(!ellipsis);
+        }}
+      />
+ */

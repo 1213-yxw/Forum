@@ -1,88 +1,75 @@
-import React, { Component } from "react";
-import AvatarEditor from "react-avatar-editor";
-import { Modal, Divider, Slider } from "antd";
-import { withRouter } from "react-router";
+import React from 'react';
+import { Upload, message } from 'antd';
+import PropTypes from 'prop-types'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
-//再鼠标移动到头像时 显示“更换头像”的文字，点击头像时，会显示一个窗口进行更换头像功能
-const getBase64 = (img, callback) => {
+function getBase64(img, callback) {
   const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
+  reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
-};
+}
 
-class FrmUpdateAvatar extends Component {
-  state = {
-    // 编辑头像
-    editImg: false,
-    scale: 1,
-    rotate: 0,
-    headPhoto: "",
-  };
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
+}
 
-  // 上传组件upload上传前获取文件
-  handleChange = (file) => {
-    getBase64(file, (url) => {
-      this.setState({
-        headPhoto: url,
-        scale: 1,
-        rotate: 0,
-        editImg: true,
-      });
-    });
-    return false;
-  };
+export default class FrmUpdateAvatar extends React.Component {
+  static propTypes={
+    visible:PropTypes.bool,
+    callBack:PropTypes.func
+  }
 
-  // 确定调整完的头像
-  subImg = () => {
-    this.setState({
-      editImg: false,
-      headPhoto: this.editor.getImage().toDataURL(), // 编辑完成后的图片base64
-    });
+  constructor(props){
+    super(props)
+    this.state={
+      loading: false,
+    }
+  }
+
+  handleChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          imageUrl,
+          loading: false,
+        }),
+      );
+    }
   };
 
   render() {
+    const { loading, imageUrl } = this.state;
+    const uploadButton = (
+      <div>
+        {loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div style={{ marginTop: 8 }}>Upload</div>
+      </div>
+    );
     return (
-      // 编辑弹窗
-      <Modal
-        visible={this.state.editImg}
-        onOk={this.subImg}
-        onCancel={() => {
-          this.setState({ editImg: false });
-        }}
-        width="400px"
+      <Upload
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        beforeUpload={beforeUpload}
+        onChange={this.handleChange}
       >
-        <AvatarEditor
-          ref={(editor) => {
-            this.editor = editor;
-          }}
-          image={this.state.headPhoto}
-          width={250}
-          height={250}
-          border={50}
-          color={[0, 0, 0, 0.3]} // RGBA
-          scale={this.state.scale}
-          rotate={this.state.rotate}
-        />
-        <Divider orientation="left">缩放</Divider>
-        <Slider
-          onChange={(val) => {
-            this.setState({ scale: val });
-          }}
-          step={0.05}
-          min={1}
-          max={2}
-        />
-        <Divider orientation="left">旋转</Divider>
-        <Slider
-          onChange={(val) => {
-            this.setState({ rotate: val });
-          }}
-          step={90}
-          min={0}
-          max={270}
-        />
-      </Modal>
+        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+      </Upload>
     );
   }
 }
-export default withRouter(FrmUpdateAvatar);
