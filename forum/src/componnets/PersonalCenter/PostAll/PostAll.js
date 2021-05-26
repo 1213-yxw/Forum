@@ -15,8 +15,7 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { User } from "../../PostDetails/User.js";
 import ShowPost from "./ShowPost.js";
 import "./PostAll.css";
-
-const { ellipsis, Paragraph } = Typography;
+const {  Paragraph } = Typography;
 
 function cancel(e) {
   console.log(e);
@@ -68,8 +67,16 @@ export default class PostAll extends Component {
     });
   };
 
+  typoClose = () => {
+    this.setState({
+      expand: false,
+      counter: !this.state.expand
+        ? this.state.counter + 0
+        : this.state.counter + 1
+    });
+  };
+
   render() {
-    //const [ellipsis, setEllipsis] = this.setState(true);
     return (
       <List
         itemLayout="vertical"
@@ -105,15 +112,16 @@ export default class PostAll extends Component {
                 {item.title}
               </Link>
             </span>
-
-            <Paragraph
-              className="post-content"
-              ellipsis={
-                ellipsis ? { rows: 2, expandable: true, symbol: "more" } : false
-              }
-            >
-              {item.content}
-            </Paragraph>
+              <Paragraph
+                className="post-content"
+                ellipsis={
+                  item.content
+                    ? { rows: 2, expandable: true, symbol: "more" }
+                    : false
+                }
+              >
+                {item.content}
+              </Paragraph>
             <span>发布于：{item.postDate}</span>
           </List.Item>
         )}
@@ -121,11 +129,3 @@ export default class PostAll extends Component {
     );
   }
 }
-/**
- *       <Switch
-        checked={ellipsis}
-        onChange={() => {
-          setEllipsis(!ellipsis);
-        }}
-      />
- */

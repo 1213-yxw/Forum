@@ -7,6 +7,7 @@ import RichText from "./RichText/RichText.js";
 import PostAll from "./PostAll/PostAll.js";
 import Header from "./Header/Header.js";
 import PostDetails from "../PostDetails/PostDetails.js"
+import ShowPost from "../PersonalCenter/PostAll/ShowPost.js";
 import "./PersonalCenter.css";
 import axios from "axios";
 /*------------------------------------------*/
@@ -43,6 +44,7 @@ class PersonalCenter extends Component {
                   component={PostAll}
                   exact
                 />
+                 <Route path="/personalCenter/showpost" component={ShowPost} />
                 <Route path="/personalCenter/richText" component={RichText} />
                 <Route path="/postDetails/:postId" component={PostDetails} />
               </Switch>

@@ -9,7 +9,6 @@ import FrmUpdateAvatar from "../Avatar/FrmUpdateAvatar.js";
 /*------------------------------------------*/
 
 class LeftNav extends Component {
-  
   menuList;
 
   getMenuNodes = (menuList) => {
@@ -23,6 +22,15 @@ class LeftNav extends Component {
       );
     });
   };
+
+ /* showFrmReport = () => {
+    this.setState({ showFrmReport: true });
+  };
+
+  hideFrmReport = (values) => {
+    this.setState({ showFrmReport: false });
+    this.addReport(values);
+  };*/
 
   renderMenu(menuList) {
     const path = this.props.location.pathname;
@@ -47,7 +55,7 @@ class LeftNav extends Component {
       </div>
     );
   }
-
+  //<FrmUpdateAvatar visible={this.state.showFrmReport} callBack={this.hideFrmReport} />
   render() {
     return (
       <Get url="https://localhost:5001/api/PersonalCenter/getMenus">
@@ -96,6 +104,9 @@ export default withRouter(LeftNav);
           //onImageChange={<FrmUpdateAvatar/>}
         >
         </AvatarEditor>
- * 
+ * {<FrmUpdateAvatar
+                visible={this.state.showFrmReport}
+                callBack={this.hideFrmReport}
+              />}
  *
  */
